@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>OpenVLA: An Open-Source Vision-Language-Action Model</title>
+  <meta name="description" content="OpenVLA: An Open-Source Vision-Language-Action Model">
+  <meta name="keywords" content="OpenVLA">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="OpenVLA: An Open-Source Vision-Language-Action Model">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpenVLA: An Open-Source Vision-Language-Action Model">
+  <meta property="og:image" content="https://openvla.github.io/static/images/teaser.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1939" />
+  <meta property="og:image:height" content="772" />
+  <meta property="og:url" content="https://openvla.github.io/" />
+  <meta property="og:description" content="OpenVLA: An Open-Source Vision-Language-Action Model" />
+  <meta name="twitter:title" content="OpenVLA: An Open-Source Vision-Language-Action Model" />
+  <meta name="twitter:description" content="OpenVLA: An Open-Source Vision-Language-Action Model" />
+  <meta name="twitter:image" content="https://openvla.github.io/static/images/teaser.png" />
+  
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/icon.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    window.MathJax = {
+        tex: {
+            tags: 'ams'
+        }
+    };
+</script>
+  
+</head>
+
+<body>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">BEVCALIB:<br><span style="font-size:2.4rem;">LiDAR-Camera Calibration via Geometry-Guided Bird's-Eye View Representation</span></h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="">Weiduo Yuan</a><sup>*,1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Jerry Li</a><sup>*,2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Justin Yue</a><sup>2</sup>,
+              </span>
+              <br>
+              <span class="author-block">
+                <a href="">Divyank Shah</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Konstantinos Karydis</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Hang Qiu</a><sup>2</sup>,
+              </span>
+            </div>
+
+            
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup><font size="-0.4">*</sup>Equal contribution</font></span><br>
+              <span class="author-block"><sup>1</sup>University of Southern California,</span>
+              <span class="author-block"><sup>2</sup>University of California, Riverside</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2406.09246"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <!-- Video Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://www.youtube.com/watch?v=SIcPxapIgBI" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                    </span>
+                    <span>Video</span>
+                  </a>
+                </span> -->
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href="https://github.com/openvla/openvla"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <!-- Model Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://huggingface.co/openvla"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <img src="static/images/hf_icon.svg" />
+                    </span>
+                    <span>Models</span>
+                  </a>
+                </span> -->
+                <!-- CoLab Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://colab.research.google.com/github/openvla/openvla/blob/main/examples/openvla.ipynb"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <img src="static/images/colab_icon.png" />
+                    </span>
+                    <span>Let's try it!</span>
+                  </a>
+                </span> -->
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- <section class="hero teaser teaser-video">
+    <div class="container is-max-desktop has-text-centered">
+      <div class="hero-body">
+        <video id="teaser" autoplay muted loop playsinline width="80%">
+          <source src="static/videos/openvla_teaser_video.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src=""
+                type="video/mp4">
+      </video>
+
+        <img src="static/images/openvla_teaser.jpg" />
+
+        <h2 class="subtitle has-text-centered">
+            We introduce OpenVLA, a 7B parameter open-source vision-language-action model (VLA), pretrained on 970k robot episodes from the Open X-Embodiment dataset. 
+            OpenVLA sets a new state of the art for generalist robot manipulation policies. It supports controlling multiple robots out of the box and 
+            can be quickly adapted to new robot setups via parameter-efficient fine-tuning. The OpenVLA checkpoints and PyTorch training pipeline are fully open-source
+            and models can be downloaded and fine-tuned from HuggingFace.
+        </h2>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- <section class="hero is-light is-small">
+    <div class="hero-body">
+      <div class="container">
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-steve has-text-centered">
+            <video poster="" id="steve video" autoplay controls muted loop playsinline height="100%">
+              <source src="static/videos/carousel/bridge_pick_clutter_2.mp4" type="video/mp4">
+            </video>
+            <p id="overlay">Bridge Put Corn on Plate</p>
+          </div>
+          <div class="item item-steve has-text-centered">
+            <video poster="" id="steve video" autoplay controls muted loop playsinline height="100%">
+              <source src="static/videos/carousel/rt1_robot_coke_upright.mp4" type="video/mp4">
+            </video>
+            <p id="overlay">Google Place Coke Upright</p>
+          </div>
+          <div class="item item-chair-tp has-text-centered">
+            <video poster="" id="chair-tp video" autoplay controls muted loop playsinline height="100%">
+              <source src="static/videos/carousel/franka_pour_corn.mp4" type="video/mp4">
+            </video>
+            <p id="overlay">Franka Pour Corn in Pot (4x)</p>
+          </div>
+          <div class="item item-chair-tp has-text-centered">
+            <video poster="" id="chair-tp video" autoplay controls muted loop playsinline height="100%">
+              <source src="static/videos/carousel/wipe_ood_4x.mp4" type="video/mp4">
+            </video>
+            <p id="overlay">Franka Wipe Table (4x)</p>
+          </div>
+          <div class="item item-fullbody has-text-centered">
+            <video poster="" id="fullbody video" autoplay controls muted loop playsinline height="100%">
+              <source src="static/videos/carousel/bridge_pick_clutter.mp4" type="video/mp4">
+            </video>
+            <p id="overlay">Bridge Put Eggplant in Bowl</p>
+          </div>
+          <div class="item item-shiba has-text-centered">
+            <video poster="" id="shiba video" autoplay controls muted loop playsinline height="100%">
+              <source src="static/videos/carousel/franka_cover.mp4" type="video/mp4">
+            </video>
+            <p id="overlay">Franka Cover Pink Bowl (4x)</p>
+          </div>
+          <div class="item item-steve has-text-centered">
+            <video poster="" id="steve video" autoplay controls muted loop playsinline height="100%">
+              <source src="static/videos/carousel/rt1_robot_orange_near_coke.mp4" type="video/mp4">
+            </video>
+            <p id="overlay">Google Move Orange near Coke</p>
+          </div>
+          <div class="item item-fullbody has-text-centered">
+            <video poster="" id="fullbody video" autoplay controls muted loop playsinline height="100%">
+              <source src="static/videos/carousel/wipe_ood_2_4x.mp4" type="video/mp4">
+            </video>
+            <p id="overlay">Franka Wipe Table (4x)</p>
+          </div>
+          <div class="item item-fullbody has-text-centered">
+            <video poster="" id="fullbody video" autoplay controls muted loop playsinline height="100%">
+              <source src="static/videos/carousel/bridge_stack.mp4" type="video/mp4">
+            </video>
+            <p id="overlay">Bridge Stack Cups (2x)</p>
+          </div>
+          <div class="item item-fullbody has-text-centered">
+            <video poster="" id="fullbody video" autoplay controls muted loop playsinline height="100%">
+              <source src="static/videos/carousel/franka_flip_pot.mp4" type="video/mp4">
+            </video>
+            <p id="overlay">Franka Flip Pot (4x)</p>
+          </div>
+          <div class="item item-fullbody has-text-centered">
+            <video poster="" id="fullbody video" autoplay controls muted loop playsinline height="100%">
+              <source src="static/videos/carousel/franka_knock.mp4" type="video/mp4">
+            </video>
+            <p id="overlay">Franka Knock over Yellow Pony (2x)</p>
+          </div>
+        </div>
+        <br>
+        <p class="has-text-centered">WidowX & Google robot videos show real <b>"zero-shot"</b> rollouts with the OpenVLA model<br>Franka Panda robot videos depict <b>fine-tuned</b> OpenVLA policies</p>
+      </div>
+    </div>
+  </section> -->
+
+
+  <!-- <section class="section">
+    <div class="container is-max-desktop">
+    </div>
+  </section> -->
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width has-text-centered">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified has-text-centered">
+            <p>
+              Accurate LiDAR-camera calibration is the foundation of accurate multimodal fusion environmental perception for autonomous driving and robotic systems.
+              Traditional calibration methods require extensive data collection in controlled environments and cannot compensate for the transformation changes during 
+              the vehicle/robot movement. In this paper, we propose the first model that uses bird's-eye view (BEV) features to perform LiDAR camera calibration from raw data,
+              termed <strong>BEVCALIB</strong>. To achieve this, we extract camera BEV features and LiDAR BEV features separately and fuse them into a shared BEV feature space. To fully 
+              utilize the geometry information from the BEV feature, we introduce a novel feature selector to choose the most important feature in the transformation decoder, 
+              which reduces memory consumption and enables efficient training. Extensive evaluations in various datasets demonstrate that BEVCALIB establishes a new state-of-the-art;
+              improving the <strong><em>best open-source baseline</em></strong> by two orders of magnitude on KITTI, Nuscenes, and our dynamic extrinsic dataset, respectively, and outperforming the 
+              <strong><em>best baseline in literature</em></strong> by 72% on KITTI dataset, and 69% on Nuscenes dataset. 
+            </p>
+            <img src="static/images/bevcalib_overview.png" />
+            <p>
+              The overall pipeline of our model consists of BEV feature extraction, FPN BEV Encoder, and geometry-guided BEV decoder (GGBD). For BEV feature extraction, the 
+              inputs of the camera and LiDAR are extracted into BEV features through different backbones separately, which are then fused into a shared BEV feature space. The FPN BEV encoder is used 
+              to improve the multi-scale geometric information of the BEV representations. For geometry-guided BEV decoder utilizes a novel feature selector that efficiently 
+              decodes calibration parameters from BEV features. \(\mathcal{L}_R\) , \(\mathcal{L}_T\) , and \(\mathcal{L}_{PC}\) are rotation-only loss, translation-only loss, and lidar reprojection loss, respectively.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Geometry-Guided BEV decoder(GGBD)</h2>
+          <div class="content has-text-justified has-text-centered">
+            <img src="static/images/bevcalib_ggbd.png" />
+            <p>
+              The GGBD component contains a feature selector (left) and a refinement module (right). The feature selector calculates the positions of BEV features using Equation (1). 
+              The corresponding positional embeddings (PE) are added to keep the geometry information of the selected feature. After the decoder, the refinement module adds an 
+              average-pooling operation to aggregate high-level information, following two separate heads to predict translation and rotation parameters.
+              \[
+                \begin{align}
+                  P_\mathcal{B} = \text{Set}(\{\text{Proj}(p) | p\in P_C^W\}) \label{eq:proj}
+                \end{align}
+              \]
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">CalibDB</h2>
+          <div class="content has-text-justified has-text-centered">
+            <img src="static/images/CalibDB.png" />
+            <p>
+              The issue of homogeneous extrinsic motivated the collection of, and the evaluation of, a heterogeneous extrinsic calibration dataset. To facilitate the collection of such a dataset (<strong>CalibDB</strong>), 
+              we deploy a bimanual robot platform in an indoor 8-camera Optitrack motion capture (MoCap) system. Figure 3a illustrates the setup of this platform where a camera and a LiDAR sensor 
+              are on the Kinova Gen3 Lite arm, respectively, and MoCap markers are also placed on the sensors. Paired with eye-in-hand refinement, the usage of MoCap markers allows for millimeter precision in 
+              measuring the pose of each sensor and therefore the extrinsic between the sensors. Figure 3b provides representative examples of how we change the pose of the robot arms to 
+              capture a diverse distribution of extrinsic between the camera and LiDAR sensor. CalibDB currently includes 1244 traces. Each trace contains 12 seconds of continuous frames of image, LiDAR point cloud, and their dynamic extrinsic data recorded at 10 Hz.
+              <strong> Please see more details about CalibDB on <a href="">CalibDB Link</a></strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+      <section class="section">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column is-full-width">
+                <h2 class="title is-3">Experiments</h2>
+
+                <h3 class="title is-4">Evaluation Results with Open-Source Baselines</h3>
+                <img src="static/images/opensource_result.png" />
+                <div class="content has-text-justified">
+
+                  <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <p>
+                        Table 2 compares <strong>BEVCALIB</strong> with the selected baselines on CalibDB, KITTI, and NuScenes. For this comparison, we train each model 500 epochs on each dataset. 
+                        When an initial guess is required, a random noise between \([-1.5m, 1.5m]\) and \([-20^\circ, 20^\circ]\) has been applied. Table 2 shows that on KITTI and NuScenes, 
+                        \Modelname outperforms all the open-source baselines by two orders of magnitude, approaching near-zero error on most, if not all, samples. In terms of translation, CalibNet and Koide3 
+                        struggle with predicting the correct z-component while Regnet and CalibAnything struggle with all components. \Modelname achieves significantly better translation and rotation accuracy. On our internal dataset \Datasetname, the trend continues with the exception of CalibAnything slightly outperforming \Modelname on predicting the correct yaw axis. Consequently, it seems that learning the correct rotation is not an issue. Compared to KITTI and NuScenes, the error slightly increased for both translation and rotation. This can be attributed to the inherent difficulty of heterogeneous extrinsic collected in \Datasetname. 
+                      </p>
+                    </tr>
+                  </table>
+                </div>
+
+                <br>
+                <h3 class="title is-4">Comparasion with Original Results from Literature</h3>
+
+                <div class="content has-text-justified">
+                  <img src="static/images/finetune_results.jpg" />
+                  <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <p>
+                        TBD
+                      </p>
+                    </tr>
+                  </table>
+                  
+                </div>
+                
+                <br>
+                <h3 class="title is-4">Parameter-Efficient Fine-Tuning</h3>
+                <div class="content has-text-justified">
+                  <img src="static/images/lora_table.png">
+                  <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <p>
+                        We test various approaches for parameter-efficient fine-tuning of OpenVLA policies across multiple Franka-Tabletop tasks.
+                        We find that only fine-tuning the network’s last layer or freezing the vision encoder leads to poor performance.
+                        LoRA achieves the best trade-off between performance and training memory consumption, matching
+                        full fine-tuning performance while fine-tuning only 1.4% of the parameters. 
+                      </p>
+                    </tr>
+                  </table>
+                </div>
+
+                <br>
+      </section>
+
+
+      <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+          <h2 class="title">BibTeX</h2>
+          <pre><code>@article{kim24openvla,
+    title={OpenVLA: An Open-Source Vision-Language-Action Model},
+    author={{Moo Jin} Kim and Karl Pertsch and Siddharth Karamcheti and Ted Xiao and Ashwin Balakrishna and Suraj Nair and Rafael Rafailov and Ethan Foster and Grace Lam and Pannag Sanketi and Quan Vuong and Thomas Kollar and Benjamin Burchfiel and Russ Tedrake and Dorsa Sadigh and Sergey Levine and Percy Liang and Chelsea Finn},
+    journal = {arXiv preprint arXiv:2406.09246},
+    year={2024},
+} </code></pre>
+        </div>
+      </section>
+
+
+      <footer class="footer">
+        <div class="container">
+          <!-- <div class="content has-text-centered">
+            <a class="icon-link" href="https://arxiv.org/pdf/2210.05714.pdf">
+              <i class="fas fa-file-pdf"></i>
+            </a>
+            <a class="icon-link" href="" class="external-link" disabled>
+              <i class="fab fa-github"></i>
+            </a>
+          </div> -->
+          <div class="columns is-centered">
+            <div class="column is-8">
+              <div class="content">
+                <p> Website borrowed from <a href="https://github.com/nerfies/nerfies.github.io">NeRFies</a> under a <a
+                    href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0
+                    International</a>
+                </p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+</body>
+
+</html>
