@@ -244,7 +244,10 @@
                     <tr>
                       <p>
                         We visualize the predicted extrinsic calibration results by overlaying the LiDAR point cloud on the camera image. From top to bottom: ground-truth, 
-                        BEVCalibm Koide3, CalibAnything, Regnet.
+                        BEVCalibm Koide3, CalibAnything, Regnet. Regnet and CalibAnything's overlays are misaligned due to the large error in rotation and translation, so the point cloud is 
+                        not level with the ground. BEVCalib and Koide3 are closer to the ground-truth overlay, but there are objects where Koide3's overlay is slightly misaligned, 
+                        e.g. the misaligned cars in the left column, the traffic sign in the middle column, and the pole and tree in the right column. In contrast, BEVCalib's 
+                        overlays do not show these misalignments.
                       </p>
                     </tr>
                   </table>
