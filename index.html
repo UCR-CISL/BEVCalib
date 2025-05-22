@@ -127,7 +127,7 @@
               utilize the geometry information from the BEV feature, we introduce a novel feature selector to choose the most important feature in the transformation decoder, 
               which reduces memory consumption and enables efficient training. Extensive evaluations in various datasets demonstrate that BEVCALIB establishes a new state-of-the-art;
               improving the <strong><em>best open-source baseline</em></strong> by two orders of magnitude on KITTI, Nuscenes, and our dynamic extrinsic dataset, respectively, and outperforming the 
-              <strong><em>best baseline in literature</em></strong> by 72% on KITTI dataset, and 69% on Nuscenes dataset. 
+              <strong><em>best baseline in literature</em></strong> by 65% on KITTI dataset, and 73% on Nuscenes dataset. 
             </p>
             <img src="static/images/bevcalib_overview.png" />
             <p>
@@ -216,17 +216,15 @@
                 <h3 class="title is-4">Comparasion with Original Results from Literature</h3>
 
                 <div class="content has-text-justified">
-                  <img src="static/images/20_1.5.png" />
-                  <img src="static/images/5_0.5.png" />
-                  <img src="static/images/10_0.25.png" />
+                  <img src="static/images/kitti.png" />
+                  <img src="static/images/nuscenes.png" />
                   <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <p>
-                        Table 3, 4, and 5 compares <strong>BEVCalib</strong> with original results reported in the literature. Since each of the existing models is trained and evaluated using different noise settings, 
-                        we group them into three tables for fair comparisons. Accordingly, we train and evaluate BEVCalib three times using different noise settings. 
-
-                        While not reproduciable, BEVCalib still outperforms the best baseline by <strong>33.01(TBD)%</strong> in translation, <strong>61.59%</strong> in rotation on KITTI, and by 
-                        <strong>78.17%</strong> in translation, <strong>68.29%</strong> in rotation on Nuscenes when average accross all noise settings.
+                        Table 3 and Table 4 compares <strong>BEVCalib</strong> with original results reported in the literature. Since each of the existing 
+                        models is trained and evaluated using different noise settings, BEVCalib is trained under (\(\pm\)1.5m, \(\pm\)20\(^\circ\)) while evaluated using different noise settings for 
+                        a fair comparison. While not reproducible, BEVCalib still outperforms the best baselines by <strong>47.08%</strong> in translation, <strong>82.32%</strong> 
+                        in rotation on KITTI, and by <strong>78.17%</strong> in translation, <strong>68.29%</strong> in rotation on Nuscenes datasets when averaged across all noise settings.
                       </p>
                     </tr>
                   </table>
