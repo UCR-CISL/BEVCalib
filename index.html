@@ -52,7 +52,7 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">BEVCALIB:<br><span style="font-size:2.4rem;">LiDAR-Camera Calibration via Geometry-Guided Bird's-Eye View Representation</span></h1>
+            <h1 class="title is-1 publication-title"><span style="font-size:2.4rem;">BEVCALIB: LiDAR-Camera Calibration <br> via Geometry-Guided Bird's-Eye View Representation</span></h1>
             <div class="is-size-5 publication-authors">
               <span class="author-block">
                 <a href="">Weiduo Yuan</a><sup>*,1</sup>,
@@ -63,7 +63,6 @@
               <span class="author-block">
                 <a href="">Justin Yue</a><sup>2</sup>,
               </span>
-              <br>
               <span class="author-block">
                 <a href="">Divyank Shah</a><sup>2</sup>,
               </span>
@@ -71,8 +70,7 @@
                 <a href="">Konstantinos Karydis</a><sup>2</sup>,
               </span>
               <span class="author-block">
-                <a href="">Hang Qiu</a><sup>2</sup>,
-              </span>
+                <a href="">Hang Qiu</a><sup>2</sup>
             </div>
             
             <div class="is-size-5 publication-authors">
@@ -103,7 +101,16 @@
                     <span>Code</span>
                   </a>
                 </span>
-
+                <!-- BibTex Link. -->
+                <span class="link-block">
+                  <a href="#BibTeX"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fas fa-book-open"></i>
+                    </span>
+                    <span>BibTex</span>
+                  </a>
+                </span>
               </div>
 
             </div>
@@ -116,7 +123,7 @@
   <section class="section">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
-        <div class="column is-full-width has-text-centered">
+        <div class="column is-four-fifths has-text-centered">
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified has-text-centered">
             <p>
@@ -129,6 +136,18 @@
               improving the <strong><em>best open-source baseline</em></strong> by two orders of magnitude on KITTI, Nuscenes, and our dynamic extrinsic dataset, respectively, and outperforming the 
               <strong><em>best baseline in literature</em></strong> by 65% on KITTI dataset, and 73% on Nuscenes dataset. 
             </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Overall Architecture</h2>
+          <div class="content has-text-justified has-text-centered">
             <img src="static/images/bevcalib_overview.png" />
             <p>
               The overall pipeline of our model consists of BEV feature extraction, FPN BEV Encoder, and geometry-guided BEV decoder (GGBD). For BEV feature extraction, the 
@@ -142,6 +161,7 @@
     </div>
   </section>
 
+
   <section class="section">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
@@ -150,42 +170,16 @@
           <div class="content has-text-justified has-text-centered">
             <img src="static/images/bevcalib_ggbd.png" />
             <p>
-              The GGBD component contains a feature selector (left) and a refinement module (right). The feature selector calculates the positions of BEV features using Equation (1). 
+              The GGBD component contains a feature selector (left) and a refinement module (right). The feature selector calculates the positions of BEV features using Equation 
+              \(P_\mathcal{B} = \text{Set}(\{\text{Proj}(p) | p\in P_C^W\}) \label{eq:proj}\).  
               The corresponding positional embeddings (PE) are added to keep the geometry information of the selected feature. After the decoder, the refinement module adds an 
               average-pooling operation to aggregate high-level information, following two separate heads to predict translation and rotation parameters.
-              \[
-                \begin{align}
-                  P_\mathcal{B} = \text{Set}(\{\text{Proj}(p) | p\in P_C^W\}) \label{eq:proj}
-                \end{align}
-              \]
             </p>
           </div>
         </div>
       </div>
     </div>
   </section>
-
-  <section class="section">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column is-full-width">
-          <h2 class="title is-3">CalibDB</h2>
-          <div class="content has-text-justified has-text-centered">
-            <img src="static/images/CalibDB.png" />
-            <p>
-              The issue of homogeneous extrinsic motivated the collection of, and the evaluation of, a heterogeneous extrinsic calibration dataset. To facilitate the collection of such a dataset (<strong>CalibDB</strong>), 
-              we deploy a bimanual robot platform in an indoor 8-camera Optitrack motion capture (MoCap) system. Figure 3a illustrates the setup of this platform where a camera and a LiDAR sensor 
-              are on the Kinova Gen3 Lite arm, respectively, and MoCap markers are also placed on the sensors. Paired with eye-in-hand refinement, the usage of MoCap markers allows for millimeter precision in 
-              measuring the pose of each sensor and therefore the extrinsic between the sensors. Figure 3b provides representative examples of how we change the pose of the robot arms to 
-              capture a diverse distribution of extrinsic between the camera and LiDAR sensor. CalibDB currently includes 1244 traces. Each trace contains 12 seconds of continuous frames of image, LiDAR point cloud, and their dynamic extrinsic data recorded at 10 Hz.
-              <strong> Please see more details about CalibDB on <a href="">CalibDB Link</a></strong>.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
 
       <section class="section">
         <div class="container is-max-desktop">
@@ -278,10 +272,7 @@
           <div class="columns is-centered">
             <div class="column is-8">
               <div class="content">
-                <p> Website borrowed from <a href="https://openvla.github.io/">OpenVLA</a> and <a href="https://github.com/nerfies/nerfies.github.io">NeRFies</a> under a <a
-                    href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0
-                    International</a>
-                </p>
+                <p> Website borrowed from <a href="https://github.com/nerfies/nerfies.github.io">NeRFies</a>.</p>
 
               </div>
             </div>
