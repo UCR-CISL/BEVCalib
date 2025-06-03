@@ -133,8 +133,8 @@
               termed <strong>BEVCALIB</strong>. To achieve this, we extract camera BEV features and LiDAR BEV features separately and fuse them into a shared BEV feature space. To fully 
               utilize the geometry information from the BEV feature, we introduce a novel feature selector to choose the most important feature in the transformation decoder, 
               which reduces memory consumption and enables efficient training. Extensive evaluations in various datasets demonstrate that BEVCALIB establishes a new state-of-the-art.
-              It improves the <strong><em>best open-source baseline</em></strong> by two orders of magnitude. Under various noise conditions, BEVCALIB also outperforms the 
-              <strong><em>best baseline in literature</em></strong> by an average of (47.08%, 82.32%) on KITTI dataset, and (78.17%, 68.29%) on Nuscenes dataset, in terms of (translation, rotation) respectively. 
+              Under various noise conditions, BEVCALIB outperforms the <strong><em>best baseline in literature</em></strong> by an average of (47.08%, 82.32%) on KITTI dataset, 
+              and (78.17%, 68.29%) on NuScenes dataset, in terms of (translation, rotation) respectively. In the open-source domain, it improves the <strong><em>best</em></strong> reproducible baseline by one order of magnitude.
             </p>
           </div>
         </div>
@@ -187,6 +187,32 @@
             <div class="column is-full-width">
                 <h2 class="title is-3">Experiments</h2>
 
+                <h3 class="title is-4">Comparasion with Original Results from Literature</h3>
+
+                <div class="content has-text-justified">
+                  <img src="static/images/kitti.png" />
+                  <img src="static/images/NuScenes.png" />
+                  <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <p>
+                        Table 2 and Table 3 compares <strong>BEVCalib</strong> with original results reported in the literature. Since each of the existing model 
+                        was trained and evaluated using different noise settings, we group them into different clusters and 
+                        evaluate BEVCalib under the same noise settings for a fair comparison. On KITTI dataset,
+                        BEVCalib has only a few centimeter translation error, outperforming the best baselines by an average
+                        of 14.29% - 78.82%, and less than 0.1\(^\circ\) rotation error, outperforming the best baselines by an average of 71.43% - 95.70% under various noise conditions.
+                        On NuScenes, BEVCalib has slightly
+                        error but still outperforms the best baseline by 78.17% in translation, 68.29% in rotation. Notably, although BEVCalib is trained under the largest noise (\(\pm\)1.5m, \(\pm\)20\(^\circ\)), 
+                        it shows extremely robustness when evaluated on smaller noise, overcoming the noise sensitivity that cripples previous methods such as LCCNet. 
+                        In addition, BEVCalib demonstrates remarkable rotation prediction accuracy for all three angles (roll, pitch, yaw) with error below 0.2\(^\circ\), achieving a 
+                        near-perfect result that outperforms any previous methods.
+                      </p>
+                    </tr>
+                  </table>
+                  
+                </div>
+
+                <br>
+
                 <h3 class="title is-4">Evaluation Results with Open-Source Baselines</h3>
                 <img src="static/images/opensource_result.png" />
                 <div class="content has-text-justified">
@@ -194,35 +220,15 @@
                   <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <p>
-                        Table 2 compares <strong>BEVCalib</strong> with the selected baselines on CalibDB, KITTI, and NuScenes. For this comparison, we train each model 500 epochs on each dataset. 
-                        When an initial guess is required, a random noise between \([-1.5m, 1.5m]\) and \([-20^\circ, 20^\circ]\) has been applied. Table 2 shows that on KITTI and NuScenes, 
-                        BEVCalib outperforms all the open-source baselines by two orders of magnitude, approaching near-zero error on most, if not all, samples. In terms of translation, CalibNet and Koide3 
-                        struggle with predicting the correct z-component while Regnet and CalibAnything struggle with all components. BEVCalib achieves significantly better translation and rotation accuracy.
-                        On our internal dataset CalibDB, the trend continues with the exception of CalibAnything slightly outperforming BEVCalib on predicting the correct yaw axis. Consequently, it seems 
-                        that learning the correct rotation is not an issue. Compared to KITTI and NuScenes, the error slightly increased for both translation and rotation. This can be attributed to the inherent 
-                        difficulty of heterogeneous extrinsic collected in CalibDB. 
+                        Table 4 compares <strong>BEVCalib</strong> with the selected baselines on KITTI, NuScenes, and CaslibDB. In our exhaustive effort searching for reproducible baselines, 
+                        we find that the open-source space in this LiDAR-camera calibration domain is rather scarce (very few checkpoints) and underperforming despite the abundant literature. 
+                        Hence, our open-source effort will significantly boost the performance of publicly availble calibration tools. Specifically, Table 4 shows that BEVCalib 
+                        outperforms the best open-source baselines by (92.75%, 89.22%) on KITTI dataset and by (92.69%, 93.62%) on NuScenes dataset, in terms of (translation, rotation), respectively.
+                        While BEVCalib approaches near-zero error on most, if not all, samples, CalibNet and Koide3 struggle with predicting the correct z-component while Regnet and CalibAnything 
+                        struggle with all components on KITTI and NuScenes datasets. Across the board, when an initial guess is required, a random noise between \([-1.5m, 1.5m]\) and \([-20^\circ, 20^\circ]\) has been applied.
                       </p>
                     </tr>
                   </table>
-                </div>
-
-                <br>
-                <h3 class="title is-4">Comparasion with Original Results from Literature</h3>
-
-                <div class="content has-text-justified">
-                  <img src="static/images/kitti.png" />
-                  <img src="static/images/nuscenes.png" />
-                  <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                      <p>
-                        Table 3 and Table 4 compares <strong>BEVCalib</strong> with original results reported in the literature. Since each of the existing 
-                        models is trained and evaluated using different noise settings, BEVCalib is trained under (\(\pm\)1.5m, \(\pm\)20\(^\circ\)) while evaluated using different noise settings for 
-                        a fair comparison. While not reproducible, BEVCalib still outperforms the best baselines by <strong>47.08%</strong> in translation, <strong>82.32%</strong> 
-                        in rotation on KITTI, and by <strong>78.17%</strong> in translation, <strong>68.29%</strong> in rotation on Nuscenes datasets when averaged across all noise settings.
-                      </p>
-                    </tr>
-                  </table>
-                  
                 </div>
                 
                 <br>
@@ -246,6 +252,25 @@
                 </div>
 
                 <br>
+      </section>
+
+      <section class="section">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column is-full-width">
+              <h2 class="title is-3">Conclusion</h2>
+              <div class="content has-text-justified has-text-centered">
+                <p>
+                  In this paper, we introduce <strong>BEVCalib</strong>, the first LiDAR-camera extrinsic calibration model using BEV features. Geometry-guided BEV decoder can effectively and 
+                  efficiently capture scene geometry, enhancing calibration accuracy.  Results on KITTI, NuScenes, and our own indoor dataset with dynamic extrinsics illustrate 
+                  that our approach establishes a new state of the art in learning-based calibration methods. Under various noise conditions, BEVCalib outperforms the 
+                  best baseline in literature by an average of (47.08%, 82.32%) on KITTI dataset, and (78.17%, 68.29%) on NuScenes dataset, in terms of (translation, rotation) respectively. Also, 
+                  BEVCalib improves the best reproducible baseline by one order of magnitude, making an important contribution to the scarce open-source space in LiDAR-camera calibration.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
 
