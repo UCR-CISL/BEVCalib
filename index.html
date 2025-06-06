@@ -134,7 +134,7 @@
               utilize the geometry information from the BEV feature, we introduce a novel feature selector to choose the most important feature in the transformation decoder, 
               which reduces memory consumption and enables efficient training. Extensive evaluations in various datasets demonstrate that BEVCALIB establishes a new state-of-the-art.
               Under various noise conditions, BEVCALIB outperforms the <strong><em>best baseline in literature</em></strong> by an average of (47.08%, 82.32%) on KITTI dataset, 
-              and (78.17%, 68.29%) on NuScenes dataset, in terms of (translation, rotation) respectively. In the open-source domain, it improves the <strong><em>best</em></strong> reproducible baseline by one order of magnitude.
+              and (78.17%, 68.29%) on NuScenes dataset, in terms of (translation, rotation). In the open-source domain, it improves the <strong><em>best</em></strong> reproducible baseline by one order of magnitude.
             </p>
           </div>
         </div>
@@ -153,7 +153,8 @@
               The overall pipeline of our model consists of BEV feature extraction, FPN BEV Encoder, and geometry-guided BEV decoder (GGBD). For BEV feature extraction, the 
               inputs of the camera and LiDAR are extracted into BEV features through different backbones separately, which are then fused into a shared BEV feature space. The FPN BEV encoder is used 
               to improve the multi-scale geometric information of the BEV representations. For geometry-guided BEV decoder utilizes a novel feature selector that efficiently 
-              decodes calibration parameters from BEV features. \(\mathcal{L}_R\) , \(\mathcal{L}_T\) , and \(\mathcal{L}_{PC}\) are rotation-only loss, translation-only loss, and lidar reprojection loss, respectively.
+              decodes calibration parameters from BEV features. \(\mathcal{L}_R\) , \(\mathcal{L}_T\) , and \(\mathcal{L}_{PC}\) are rotation loss, translation loss, and lidar reprojection loss, respectively.
+              We use total loss \(\mathcal{L} = \lambda_R \mathcal{L}_R + \lambda_T \mathcal{L}_T + \lambda_{PC}\mathcal{L}_{PC}\) to achieve end-to-end optimization.
             </p>
           </div>
         </div>
@@ -173,7 +174,7 @@
               The GGBD component contains a feature selector (left) and a refinement module (right). The feature selector calculates the positions of BEV features using Equation 
               \(P_\mathcal{B} = \text{Set}(\{\text{Proj}(p) | p\in P_C^W\}) \label{eq:proj}\).  
               The corresponding positional embeddings (PE) are added to keep the geometry information of the selected feature. After the decoder, the refinement module adds an 
-              average-pooling operation to aggregate high-level information, following two separate heads to predict translation and rotation parameters.
+              average-pooling operation to aggregate high-level information, following two separate heads to predict translation and rotation.
             </p>
           </div>
         </div>
@@ -191,7 +192,7 @@
 
                 <div class="content has-text-justified">
                   <img src="static/images/kitti.png" />
-                  <img src="static/images/NuScenes.png" />
+                  <img src="static/images/nuscenes.png" />
                   <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <p>
@@ -225,7 +226,7 @@
                         Hence, our open-source effort will significantly boost the performance of publicly availble calibration tools. Specifically, Table 4 shows that BEVCalib 
                         outperforms the best open-source baselines by (92.75%, 89.22%) on KITTI dataset and by (92.69%, 93.62%) on NuScenes dataset, in terms of (translation, rotation), respectively.
                         While BEVCalib approaches near-zero error on most, if not all, samples, CalibNet and Koide3 struggle with predicting the correct z-component while Regnet and CalibAnything 
-                        struggle with all components on KITTI and NuScenes datasets. Across the board, when an initial guess is required, a random noise between \([-1.5m, 1.5m]\) and \([-20^\circ, 20^\circ]\) has been applied.
+                        struggle with all components on KITTI and NuScenes datasets. We apply a random noise between \([-1.5m, 1.5m]\) and \([-20^\circ, 20^\circ]\) to initial guess in this table.
                       </p>
                     </tr>
                   </table>
@@ -242,10 +243,10 @@
                     <tr>
                       <p>
                         We visualize the predicted extrinsic calibration results by overlaying the LiDAR point cloud on the camera image. From top to bottom: ground-truth, 
-                        BEVCalibm Koide3, CalibAnything, Regnet. Regnet and CalibAnything's overlays are misaligned due to the large error in rotation and translation, so the point cloud is 
+                        BEVCalib, Koide3, CalibAnything, Regnet. Regnet and CalibAnything's overlays are misaligned due to the large error in rotation and translation, so the point cloud is 
                         not level with the ground. BEVCalib and Koide3 are closer to the ground-truth overlay, but there are objects where Koide3's overlay is slightly misaligned, 
                         e.g. the misaligned cars in the left column, the traffic sign in the middle column, and the pole and tree in the right column. In contrast, BEVCalib's 
-                        overlays do not show these misalignments.
+                        overlays do not show these misalignments, indicating more accurate calibration results from BEVCalib across real environments.
                       </p>
                     </tr>
                   </table>
