@@ -78,7 +78,7 @@ We release our pretrained model on the KITTI-Odometry dataset. We provide two wa
 Please find the pretrained model from [Google Drive](https://drive.google.com/drive/folders/1r9RkZATm9-7vh5buoB1YSDuL3_DslxZ3?usp=share_link) and place it in the `./ckpt` directory. For your convenience, you can also run `pip3 install gdown` and run the following command to download the KITTI checkpoint in the command line.
 
 ```bash
-gdown https://drive.google.com/uc\?id\=1gWO-Z4NXG2uWwsZPecjWByaZVtgJ0XNb
+gdown https://drive.google.com/drive/folders/157yrmTHntjqF5nP_cVo22BfeVPhiz2ni?usp=share_link
 ```
 ### Hugging face
 We also release our pretrained model on [Hugging Face page](https://huggingface.co/cisl-hf/BEVCalib). You should download huggingface-cli by `pip install -U "huggingface_hub[cli]"` and then download the pretrained model by running the following command:
