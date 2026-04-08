@@ -37,7 +37,7 @@ conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
 
 After installing the above dependencies, please run the following command to install [bev_pool](https://github.com/mit-han-lab/bevfusion) operation
 ```bash
-cd ./kitti-bev-calib/img_branch/bev_pool && python setup.py build_ext --inplace
+cd ./core/img_branch/bev_pool && python setup.py build_ext --inplace
 ```
 
 We also provide a [Dockerfile](Dockerfile/Dockerfile) for easy setup, please execute the following command to build the docker image and install cuda extensions:
@@ -45,7 +45,7 @@ We also provide a [Dockerfile](Dockerfile/Dockerfile) for easy setup, please exe
 docker build -f Dockerfile/Dockerfile -t bevcalib .
 docker run --gpus all -it -v$(pwd):/workspace bevcalib
 ### In the docker, run the following command to install cuda extensions
-cd ./kitti-bev-calib/img_branch/bev_pool && python setup.py build_ext --inplace
+cd ./core/img_branch/bev_pool && python setup.py build_ext --inplace
 ```
 
 ## Dataset Preparation
@@ -84,6 +84,12 @@ gdown https://drive.google.com/uc\?id\=1gWO-Z4NXG2uWwsZPecjWByaZVtgJ0XNb
 We also release our pretrained model on [Hugging Face page](https://huggingface.co/cisl-hf/BEVCalib). You should download huggingface-cli by `pip install -U "huggingface_hub[cli]"` and then download the pretrained model by running the following command:
 ```bash
 huggingface-cli download cisl-hf/BEVCalib --revision kitti-bev-calib --local-dir YOUR_LOCAL_PATH
+```
+
+### Environment Setup
+Before running any scripts, set the `PYTHONPATH` to the repository root so that shared modules in `core/` can be found:
+```bash
+export PYTHONPATH=$(pwd)
 ```
 
 ## Evaluation

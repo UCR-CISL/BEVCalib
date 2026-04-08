@@ -1,11 +1,11 @@
 import torch
 import torch.nn as nn
-from img_branch.img_branch import Cam2BEV
-from pc_branch.pc_branch import Lidar2BEV
-from losses.losses import realworld_loss
-from losses.quat_tools import quaternion_from_matrix
+from core.img_branch.img_branch import Cam2BEV
+from core.pc_branch.pc_branch import Lidar2BEV
+from core.losses.losses import realworld_loss
+from core.losses.quat_tools import quaternion_from_matrix
 from deformable_attention import DeformableAttention
-from BEVEncoder.BEVEncoder import BEVEncoder
+from core.BEVEncoder.BEVEncoder import BEVEncoder
 
 class ConvFuser(nn.Sequential):
     def __init__(self, img_in_channel, pc_in_channel, out_channel):

@@ -9,3 +9,5 @@ setuptools==65.5.1
 spconv==2.3.8
 torch==2.0.1 --extra-index-url https://download.pytorch.org/whl/cu118
 transformers==4.29.1
+pyquaternion==0.9.9
+nuscenes-devkit==1.1.11

@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
-from kitti_dataset import KittiDataset
+from nuscenes_dataset import NuscenesDataset
 from core.bev_calib import BEVCalib
 from torch.utils.tensorboard import SummaryWriter
 import argparse
@@ -15,18 +15,17 @@ import os
 
 def parse_args():
     parser = argparse.ArgumentParser("Run inference / evaluation")
-    parser.add_argument("--dataset_root", type=str, default="/data/HangQiu/data/kitti-odemetry")
+    parser.add_argument("--dataset_root", type=str, default="/data/HangQiu/data/nuscenes")
     parser.add_argument("--ckpt_path", type=str, required=True, help="Path to the saved .pth checkpoint")
     parser.add_argument("--log_dir", type=str, default="./logs/inference")
     parser.add_argument("--batch_size", type=int, default=1)
-    parser.add_argument("--xyz_only", type=int, default=1)
     parser.add_argument("--angle_range_deg", type=float, default=20.0)
     parser.add_argument("--trans_range", type=float, default=1.5)
     return parser.parse_args()
 
 def collate_fn(batch):
     target_size = (704, 256)
-    processed_data = [crop_and_resize(item[0], target_size, item[3], False) for item in batch]
+    processed_data = [crop_and_resize(item[0], target_size, item[3]) for item in batch]
     imgs = [item[0] for item in processed_data]
     intrinsics = [item[1] for item in processed_data]
 
@@ -83,7 +82,7 @@ def rotation_matrix_to_euler_xyz(R):
     pitch = torch.atan2(-R[:, 2, 0], sy)
 
     yaw = torch.where(
-        ~singular,  
+        ~singular,
         torch.atan2(R[:, 1, 0], R[:, 0, 0]),
         torch.zeros_like(roll)
     )
@@ -92,14 +91,13 @@ def rotation_matrix_to_euler_xyz(R):
 
 def main():
     args = parse_args()
-    xyz_only_choise = args.xyz_only > 0
 
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     log_dir = os.path.join(args.log_dir, timestamp)
     os.makedirs(log_dir, exist_ok=True)
     writer = SummaryWriter(log_dir)
 
-    dataset = KittiDataset(args.dataset_root)
+    dataset = NuscenesDataset(args.dataset_root)
     gen = torch.Generator().manual_seed(114514)
     split_size = int(0.8 * len(dataset))
     _, val_dataset = random_split(dataset, [split_size, len(dataset) - split_size],
@@ -115,7 +113,7 @@ def main():
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = BEVCalib(
-        deformable=False,      
+        deformable=False,
         bev_encoder=True,
     ).to(device)
 
@@ -144,8 +142,7 @@ def main():
                 gt_T_to_camera = np.array(gt_T_to_camera).astype(np.float32)
                 init_T_to_camera, ang_err, trans_err = generate_single_perturbation_from_T(gt_T_to_camera, angle_range_deg=eval_angle, trans_range=eval_trans_range)
                 resize_imgs = torch.from_numpy(np.array(imgs)).permute(0, 3, 1, 2).float().to(device)
-                if xyz_only_choise:
-                    pcs = np.array(pcs)[:, :, :3]
+                pcs = np.array(pcs)[:, :, :3]
                 pcs = torch.from_numpy(np.array(pcs)).float().to(device)
                 gt_T_to_camera = torch.from_numpy(gt_T_to_camera).float().to(device)
                 init_T_to_camera = torch.from_numpy(init_T_to_camera).float().to(device)
@@ -153,9 +150,12 @@ def main():
                 intrinsic_matrix = torch.from_numpy(np.array(intrinsics)).float().to(device)
                 T_pred, init_loss, loss = model(resize_imgs, pcs, gt_T_to_camera, init_T_to_camera, post_cam2ego_T, intrinsic_matrix, masks=masks, out_init_loss=False)
 
-                metrics = {k: v.item() for k, v in loss.items()}
-                if init_loss:
-                    metrics.update({f"init_{k}": v.item() for k, v in init_loss.items()})
+                metrics = {}
+                if init_loss is not None:
+                    for k, v in init_loss.items():
+                        metrics[f"init_{k}"] = v.item()
+                for k, v in loss.items():
+                    metrics[k] = v.item()
 
                 total_losses.append(metrics["total_loss"])
                 translation_losses.append(metrics["translation_loss"])
@@ -163,7 +163,7 @@ def main():
                 quant_losses.append(metrics["quat_norm_loss"])
                 reproj_losses.append(metrics["PC_reproj_loss"])
 
-                # calculate the error 
+                # calculate the error
                 translation_error = torch.abs((T_pred[:, :3, 3] - gt_T_to_camera[:, :3, 3]).reshape(1,3))
                 rotation_error = torch.abs(torch.stack(rotation_matrix_to_euler_xyz(T_pred[:, :3, :3] @ gt_T_to_camera[:, :3, :3].transpose(-2, -1)), dim=0).reshape(1,3))
 
@@ -191,7 +191,7 @@ def main():
 
     print("STD losses:")
     print(f"Total loss: {np.std(total_losses):.6f}")
-    print(f"Translation loss: {np.std(translation_losses):.6f}")    
+    print(f"Translation loss: {np.std(translation_losses):.6f}")
     print(f"Rotation loss: {np.std(rotation_losses):.6f}")
     print(f"Quantization loss: {np.std(quant_losses):.6f}")
     print(f"Reprojection loss: {np.std(reproj_losses):.6f}")
@@ -204,13 +204,15 @@ def main():
     translation_errors = torch.cat(translation_errors, dim=0).cpu().numpy()
     rotation_errors = torch.cat(rotation_errors, dim=0).cpu().numpy()
 
+    print("Average translation error: ", np.mean(translation_errors))
     print("Average translation xyz error: ", np.mean(translation_errors, axis=0))
+    print("Average rotation error: ", np.mean(rotation_errors))
     print("Average rotation ypr error: ", np.mean(rotation_errors, axis=0))
 
+    print("STD of translation error: ", np.std(translation_errors))
     print("STD of translation xyz error: ", np.std(translation_errors, axis=0))
+    print("STD of rotation error: ", np.std(rotation_errors))
     print("STD of rotation ypr error: ", np.std(rotation_errors, axis=0))
 
 if __name__ == "__main__":
     main()
-
-

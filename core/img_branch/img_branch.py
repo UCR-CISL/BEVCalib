@@ -1,18 +1,11 @@
 import torch
 import torch.nn as nn
-try:
-    from .bev_pool import bev_pool
-    from .img_encoders import SwinT_tiny_Encoder
-except:
-    import bev_pool.bev_pool as bev_pool
-    from img_encoders import SwinT_tiny_Encoder
+from .bev_pool.bev_pool import bev_pool
+from .img_encoders import SwinT_tiny_Encoder
 
 
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from proj_head import ProjectionHead
-from bev_settings import xbound, ybound, zbound, down_ratio, sparse_shape, vsize_xyz, d_conf
+from core.proj_head import ProjectionHead
+from core.bev_settings import xbound, ybound, zbound, down_ratio, sparse_shape, vsize_xyz, d_conf
 
 def gen_dx_bx(xbound, ybound, zbound):
     dx = torch.Tensor([row[2] for row in [xbound, ybound, zbound]])

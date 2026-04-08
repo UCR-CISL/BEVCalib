@@ -3,11 +3,8 @@ import torch.nn as nn
 from spconv.pytorch.utils import PointToVoxel
 from .pc_encoders import SparseEncoder
 
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from proj_head import ProjectionHead
-from bev_settings import xbound, ybound, zbound, down_ratio, sparse_shape, vsize_xyz
+from core.proj_head import ProjectionHead
+from core.bev_settings import xbound, ybound, zbound, down_ratio, sparse_shape, vsize_xyz
 
 
 class Lidar2BEV(nn.Module):
