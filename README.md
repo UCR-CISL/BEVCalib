@@ -4,6 +4,9 @@
 
 <hr style="border: 2px solid gray;"></hr>
 
+## News
+We release checkpoints on **KITTI**, **nuScenes**, and **CalibDB**! The CalibDB checkpoint is expected to perform better in indoor scenes. All checkpoints are available on [Hugging Face](https://huggingface.co/cisl-hf/BEVCalib).
+
 ## Getting Started
 
 ### Prerequistes
@@ -69,21 +72,30 @@ kitti-odometry/
     └── ...
 ```
 
+### nuScenes
+Please download the nuScenes dataset from [here](https://www.nuscenes.org/nuscenes). We use the [nuscenes-devkit](https://github.com/nutonomy/nuscenes-devkit) to load the dataset. Please install it via `pip install nuscenes-devkit`.
+
 ### CalibDB
 Coming soon!
 
 ## Pretrained Model
-We release our pretrained model on the KITTI-Odometry dataset. We provide two ways to download our models.
-### Google cloud
-Please find the pretrained model from [Google Drive](https://drive.google.com/drive/folders/157yrmTHntjqF5nP_cVo22BfeVPhiz2ni?usp=share_link) and place it in the `./ckpt` directory. For your convenience, you can also run `pip3 install gdown` and run the following command to download the KITTI checkpoint in the command line.
+We release pretrained models for **KITTI-Odometry**, **nuScenes**, and **CalibDB**. We provide two ways to download our models.
+### Google Drive
+Please find the pretrained models from [Google Drive](https://drive.google.com/drive/folders/157yrmTHntjqF5nP_cVo22BfeVPhiz2ni?usp=share_link) and place them in the `./ckpts` directory.
 
+> **Note:** `gdown` may not work properly with the current Google Drive links. Please download the checkpoints manually from the link above, or use Hugging Face (recommended).
+
+### Hugging Face
+We also release our pretrained models on [Hugging Face](https://huggingface.co/cisl-hf/BEVCalib). You should download huggingface-cli by `pip install -U "huggingface_hub[cli]"` and then download the pretrained models by running the following commands:
 ```bash
-gdown https://drive.google.com/uc\?id\=1gWO-Z4NXG2uWwsZPecjWByaZVtgJ0XNb
-```
-### Hugging face
-We also release our pretrained model on [Hugging Face page](https://huggingface.co/cisl-hf/BEVCalib). You should download huggingface-cli by `pip install -U "huggingface_hub[cli]"` and then download the pretrained model by running the following command:
-```bash
+# KITTI checkpoint
 huggingface-cli download cisl-hf/BEVCalib --revision kitti-bev-calib --local-dir YOUR_LOCAL_PATH
+
+# nuScenes checkpoint
+huggingface-cli download cisl-hf/BEVCalib --revision nuscenes-bev-calib --local-dir YOUR_LOCAL_PATH
+
+# CalibDB checkpoint
+huggingface-cli download cisl-hf/BEVCalib --revision calibdb-bev-calib --local-dir YOUR_LOCAL_PATH
 ```
 
 ### Environment Setup
@@ -93,12 +105,24 @@ export PYTHONPATH=$(pwd)
 ```
 
 ## Evaluation
-Please run the following command to evaluate the model:
+### KITTI
+Please run the following command to evaluate the model on KITTI:
 ```bash
 python kitti-bev-calib/inference_kitti.py \
          --log_dir ./logs/kitti \
          --dataset_root YOUR_PATH_TO_KITTI/kitti-odemetry \
-         --ckpt_path YOUR_PATH_TO_KITTI_CHECKPOINT/ckpt/ckpt.pth \
+         --ckpt_path YOUR_PATH_TO_KITTI_CHECKPOINT/ckpts/kitti.pth \
+         --angle_range_deg 20.0 \
+         --trans_range 1.5
+```
+
+### nuScenes
+Please run the following command to evaluate the model on nuScenes:
+```bash
+python nuscenes-bev-calib/inference_nuscenes.py \
+         --log_dir ./logs/nuscenes \
+         --dataset_root YOUR_PATH_TO_NUSCENES \
+         --ckpt_path YOUR_PATH_TO_NUSCENES_CHECKPOINT/ckpts/nuscenes.pth \
          --angle_range_deg 20.0 \
          --trans_range 1.5
 ```
