@@ -5,7 +5,7 @@
 <hr style="border: 2px solid gray;"></hr>
 
 ## News
-We release checkpoints on **KITTI**, **nuScenes**, and **CalibDB**! The CalibDB checkpoint is expected to perform better in indoor scenes. All checkpoints are available on [Hugging Face](https://huggingface.co/cisl-hf/BEVCalib).
+We release checkpoints on **KITTI**, **nuScenes**, and **CalibDB**! The CalibDB checkpoint is expected to perform better in indoor scenes. All checkpoints are available on [Hugging Face](https://huggingface.co/cisl-hf/BEVCalib) and [Google Drive](https://drive.google.com/drive/folders/157yrmTHntjqF5nP_cVo22BfeVPhiz2ni?usp=share_link).
 
 ## Getting Started
 
@@ -81,9 +81,19 @@ Coming soon!
 ## Pretrained Model
 We release pretrained models for **KITTI-Odometry**, **nuScenes**, and **CalibDB**. We provide two ways to download our models.
 ### Google Drive
-Please find the pretrained models from [Google Drive](https://drive.google.com/drive/folders/157yrmTHntjqF5nP_cVo22BfeVPhiz2ni?usp=share_link) and place them in the `./ckpts` directory.
+Please find the pretrained models from [Google Drive](https://drive.google.com/drive/folders/157yrmTHntjqF5nP_cVo22BfeVPhiz2ni?usp=share_link) and place them in the `./ckpts` directory. You can also download them individually using `gdown`:
+```bash
+pip install gdown
 
-> **Note:** `gdown` may not work properly with the current Google Drive links. Please download the checkpoints manually from the link above, or use Hugging Face (recommended).
+# KITTI checkpoint
+gdown "https://drive.google.com/uc?id=1gWO-Z4NXG2uWwsZPecjWByaZVtgJ0XNb" -O ckpts/kitti.pth
+
+# nuScenes checkpoint
+gdown "https://drive.google.com/uc?id=1TXRXDimvI3eG4l37zj0d9AuH3YqBl0En" -O ckpts/nuscenes.pth
+
+# CalibDB checkpoint
+gdown "https://drive.google.com/uc?id=1Oc9kmHR5XdG5k6HvZ88Y-QcvM9uvbslK" -O ckpts/calibdb.pth
+```
 
 ### Hugging Face
 We also release our pretrained models on [Hugging Face](https://huggingface.co/cisl-hf/BEVCalib). You should download huggingface-cli by `pip install -U "huggingface_hub[cli]"` and then download the pretrained models by running the following commands:
