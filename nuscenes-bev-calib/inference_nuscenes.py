@@ -3,6 +3,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from nuscenes_dataset import NuscenesDataset
 from core.bev_calib import BEVCalib
+from core.ckpt_utils import load_checkpoint
 from torch.utils.tensorboard import SummaryWriter
 import argparse
 from datetime import datetime
@@ -16,7 +17,7 @@ import os
 def parse_args():
     parser = argparse.ArgumentParser("Run inference / evaluation")
     parser.add_argument("--dataset_root", type=str, default="/data/HangQiu/data/nuscenes")
-    parser.add_argument("--ckpt_path", type=str, required=True, help="Path to the saved .pth checkpoint")
+    parser.add_argument("--ckpt_path", type=str, required=True, help="Hugging Face checkpoint dir, .safetensors file, or .pth checkpoint")
     parser.add_argument("--log_dir", type=str, default="./logs/inference")
     parser.add_argument("--batch_size", type=int, default=1)
     parser.add_argument("--angle_range_deg", type=float, default=20.0)
@@ -117,8 +118,7 @@ def main():
         bev_encoder=True,
     ).to(device)
 
-    ckpt = torch.load(args.ckpt_path, map_location=device)
-    model.load_state_dict(ckpt["model_state_dict"])
+    load_checkpoint(model, args.ckpt_path, device=device)
     model.eval()
 
     total_losses = []

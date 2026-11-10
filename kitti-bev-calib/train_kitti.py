@@ -3,6 +3,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from kitti_dataset import KittiDataset
 from core.bev_calib import BEVCalib
+from core.ckpt_utils import load_checkpoint
 from torch.optim.lr_scheduler import StepLR
 from torch.utils.tensorboard import SummaryWriter
 import argparse
@@ -148,8 +149,7 @@ def main():
     ).to(device)
 
     if args.pretrain_ckpt is not None:
-        state_dict = torch.load(args.pretrain_ckpt, map_location=device)
-        model.load_state_dict(state_dict['model_state_dict'], strict=True)
+        load_checkpoint(model, args.pretrain_ckpt, device=device)
         print(f"Load pretrain model from {args.pretrain_ckpt}")
     
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.wd)

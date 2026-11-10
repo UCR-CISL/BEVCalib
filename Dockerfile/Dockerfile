@@ -14,6 +14,7 @@ RUN pip install \
     pandas \
     open3d \
     transformers \
+    safetensors \
     spconv-cu118 \
     deformable_attention \
     tensorboard \
